@@ -7,3 +7,5 @@ dist/
 .svelte-kit/
 build/
 graphify-out/
+.venv-schemathesis/
+contract/laporan/
