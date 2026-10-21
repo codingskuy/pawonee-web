@@ -10,20 +10,25 @@ Web pendamping Pawonee — **Divisi Pawonee (AI Cooking Assistant)**, org `Codin
 
 | Komponen | Versi |
 |---|---|
-| Node.js | 22.12.0 LTS |
-| Next.js | 15.1.6 |
-| React | 19.0.0 |
-| TypeScript | 5.7.2 |
+| Bun | 1.4.x |
+| SvelteKit | 2.70.3 |
+| Svelte | 5.57.2 (runes) |
+| Vite | 7.3.7 |
+| TypeScript | 5.9.3 |
+| Uji | Vitest 3.2.7 |
+| Adapter | `@sveltejs/adapter-node` 5.5.7 (dijalankan dengan Bun, lihat ADR-0003) |
 
 ## Cara jalan
 
 ```bash
-npm ci
-npm run dev      # http://localhost:3000
-npm run build && npm start
+bun install
+bun run dev        # http://localhost:5173
+bun run check      # svelte-check
+bun run test       # vitest
+bun run build && bun run start
 ```
 
-Basis URL backend diatur lewat `NEXT_PUBLIC_PAWONEE_API` (bawaan `http://localhost:8080`).
+Basis URL backend diatur lewat `PAWONEE_API` (bawaan `http://localhost:8080`).
 
 ## Kontrak API
 
