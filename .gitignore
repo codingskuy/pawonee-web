@@ -10,3 +10,4 @@ graphify-out/
 .venv-schemathesis/
 contract/laporan/
 .schemathesis/
+__pycache__/
