@@ -24,11 +24,18 @@ export interface Preferensi {
   anggaranMaks: number;
 }
 
-const API = process.env.NEXT_PUBLIC_PAWONEE_API ?? "http://localhost:8080";
+export const API_BAWAAN = 'http://localhost:8080';
 
-export async function ambilRekomendasi(bahan: string[]): Promise<Resep[]> {
-  const q = encodeURIComponent(bahan.join(","));
-  const res = await fetch(`${API}/v1/resep/rekomendasi?bahan=${q}`, { cache: "no-store" });
+export function urlRekomendasi(api: string, bahan: string[]): string {
+  return `${api}/v1/resep/rekomendasi?bahan=${encodeURIComponent(bahan.join(','))}`;
+}
+
+export async function ambilRekomendasi(
+  bahan: string[],
+  api: string = API_BAWAAN,
+  ambil: typeof fetch = fetch
+): Promise<Resep[]> {
+  const res = await ambil(urlRekomendasi(api, bahan), { cache: 'no-store' });
   if (!res.ok) throw new Error(`Backend ${res.status}`);
   return (await res.json()) as Resep[];
 }
