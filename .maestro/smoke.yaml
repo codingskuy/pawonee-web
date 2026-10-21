@@ -1,0 +1,13 @@
+# Smoke web Pawonee: beranda memuat, pemilih jiwa ada, mode hemat (stok kosong) menampilkan hasil.
+# Selector: data-testid identik dengan flow/flow.json di pawonee-design (selektor `dipakaiWeb`).
+url: ${WEB_URL}
+---
+- launchApp
+- assertVisible:
+    id: beranda
+- assertVisible:
+    id: jiwa
+- assertVisible:
+    id: mode-hemat
+- assertVisible:
+    id: item-resep

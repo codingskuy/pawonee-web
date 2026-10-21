@@ -1,0 +1,13 @@
+# Alur bisnis utama web: bagi resep lewat halaman publik tanpa login (FR bagi/cetak, PWN-WEB-004).
+# Dari tautan bagi `/resep/R-04?jiwa=4`: judul, tombol "Buka di aplikasi", tombol Cetak; porsi terskala 4 jiwa.
+url: ${WEB_URL}/resep/R-04?jiwa=4
+---
+- launchApp
+- assertVisible:
+    id: resep-publik
+- assertVisible:
+    id: buka-aplikasi
+- assertVisible:
+    id: cetak
+- assertVisible: ".*untuk 4 jiwa.*"
+- assertVisible: "Nasi Goreng Kampung"
