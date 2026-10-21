@@ -2,8 +2,10 @@ import type { Handle } from '@sveltejs/kit';
 import { BatasLaju, kunciPembatas } from '$lib/server/api/batasLaju';
 import { preflight, tambahCors } from '$lib/server/api/cors';
 import { galat } from '$lib/server/api/respons';
+import { mulaiCronHarian } from '$lib/server/cron/mulai';
 
 const pembatas = new BatasLaju();
+mulaiCronHarian();
 
 export const handle: Handle = async ({ event, resolve }) => {
   if (!event.url.pathname.startsWith('/api/v1/')) return resolve(event);
