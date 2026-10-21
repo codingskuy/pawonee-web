@@ -1,0 +1,248 @@
+{
+  "consumer": {
+    "name": "pawonee-web"
+  },
+  "interactions": [
+    {
+      "description": "web memproksi baca stok keluarga",
+      "providerStates": [
+        {
+          "name": "stok keluarga KEL-0001 tersedia"
+        }
+      ],
+      "request": {
+        "headers": {
+          "Authorization": "Bearer token-contoh",
+          "X-Kontrak-Versi": "v1"
+        },
+        "method": "GET",
+        "path": "/v1/stok",
+        "query": {
+          "idKeluarga": [
+            "KEL-0001"
+          ]
+        }
+      },
+      "response": {
+        "body": {
+          "data": [
+            {
+              "gram": 300,
+              "kedaluwarsaHari": 5,
+              "kodeGrade": "NON-G2",
+              "namaBahan": "tempe"
+            }
+          ]
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "matchingRules": {
+          "body": {
+            "$.data": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type",
+                  "min": 1
+                }
+              ]
+            },
+            "$.data[*].gram": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ]
+            },
+            "$.data[*].kedaluwarsaHari": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ]
+            },
+            "$.data[*].kodeGrade": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "^(G2-V|G2-U|G2-S|NON-G2)$"
+                }
+              ]
+            },
+            "$.data[*].namaBahan": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            }
+          },
+          "header": {},
+          "status": {}
+        },
+        "status": 200
+      }
+    },
+    {
+      "description": "web memproksi baca stok keluarga tanpa profil",
+      "providerStates": [
+        {
+          "name": "keluarga KEL-0001 belum punya profil"
+        }
+      ],
+      "request": {
+        "headers": {
+          "Authorization": "Bearer token-contoh-tanpa-profil",
+          "X-Kontrak-Versi": "v1"
+        },
+        "method": "GET",
+        "path": "/v1/stok",
+        "query": {
+          "idKeluarga": [
+            "KEL-0001"
+          ]
+        }
+      },
+      "response": {
+        "body": {
+          "kode": "PROFIL_TIDAK_ADA",
+          "pesan": "Profil keluarga belum ada."
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "matchingRules": {
+          "body": {
+            "$.pesan": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            }
+          },
+          "header": {},
+          "status": {}
+        },
+        "status": 404
+      }
+    },
+    {
+      "description": "web meneruskan simpan profil keluarga baru",
+      "providerStates": [
+        {
+          "name": "keluarga KEL-0001 belum punya profil"
+        }
+      ],
+      "request": {
+        "body": {
+          "alatMasak": [
+            "kompor",
+            "wajan",
+            "panci",
+            "kukusan"
+          ],
+          "alergi": [],
+          "budgetPerMakan": 35000,
+          "idKeluarga": "KEL-0001",
+          "jumlahJiwa": 4,
+          "levelPedas": 1,
+          "pantangan": [
+            "halal-selalu"
+          ]
+        },
+        "headers": {
+          "Authorization": "Bearer token-contoh",
+          "Content-Type": "application/json",
+          "X-Kontrak-Versi": "v1"
+        },
+        "method": "PUT",
+        "path": "/v1/profil/KEL-0001"
+      },
+      "response": {
+        "body": {
+          "data": {
+            "tersimpan": true
+          }
+        },
+        "headers": {
+          "Content-Type": "application/json",
+          "X-Kontrak-Versi": "v1"
+        },
+        "status": 200
+      }
+    },
+    {
+      "description": "web meneruskan simpan profil tanpa kredensial",
+      "request": {
+        "body": {
+          "alatMasak": [
+            "kompor",
+            "wajan",
+            "panci",
+            "kukusan"
+          ],
+          "alergi": [],
+          "budgetPerMakan": 35000,
+          "idKeluarga": "KEL-0001",
+          "jumlahJiwa": 4,
+          "levelPedas": 1,
+          "pantangan": [
+            "halal-selalu"
+          ]
+        },
+        "headers": {
+          "Content-Type": "application/json",
+          "X-Kontrak-Versi": "v1"
+        },
+        "method": "PUT",
+        "path": "/v1/profil/KEL-0001"
+      },
+      "response": {
+        "body": {
+          "kode": "TIDAK_TEROTENTIKASI",
+          "pesan": "Autentikasi diperlukan."
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "matchingRules": {
+          "body": {
+            "$.pesan": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            }
+          },
+          "header": {},
+          "status": {}
+        },
+        "status": 401
+      }
+    }
+  ],
+  "metadata": {
+    "pact-js": {
+      "version": "13.2.0"
+    },
+    "pactRust": {
+      "ffi": "0.4.22",
+      "models": "1.2.3"
+    },
+    "pactSpecification": {
+      "version": "3.0.0"
+    }
+  },
+  "provider": {
+    "name": "pawonee-backend-service"
+  }
+}
